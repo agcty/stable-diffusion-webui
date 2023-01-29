@@ -380,16 +380,8 @@ def load_model(checkpoint_info=None, already_loaded_state_dict=None, time_taken_
 
     print(f"Creating model from config: {checkpoint_config}")
 
-    sd_model = None
-    try:
-        with sd_disable_initialization.DisableInitialization():
-            sd_model = instantiate_from_config(sd_config.model)
-    except Exception as e:
-        pass
-
-    if sd_model is None:
-        print('Failed to create model quickly; will retry using slow method.', file=sys.stderr)
-        sd_model = instantiate_from_config(sd_config.model)
+    ## slow instantiation always
+    sd_model = instantiate_from_config(sd_config.model)
 
     sd_model.used_config = checkpoint_config
 
